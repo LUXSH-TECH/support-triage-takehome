@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Read the assignment first
+    url: https://github.com/LUXSH-TECH/support-triage-takehome/blob/main/README.md
+    about: Most questions are answered in the README and FIXTURES.md.
+  - name: How to submit your solution
+    url: https://github.com/LUXSH-TECH/support-triage-takehome/blob/main/CONTRIBUTING.md
+    about: The pull-request submission flow.

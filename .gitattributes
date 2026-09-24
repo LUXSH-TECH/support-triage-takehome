@@ -1,0 +1,15 @@
+# Normalise line endings to LF for all text files (cross-platform consistency)
+* text=auto eol=lf
+
+*.md            text eol=lf
+*.json          text eol=lf
+*.sql           text eol=lf
+*.psv           text eol=lf
+*.toml          text eol=lf
+*.yml           text eol=lf
+*.yaml          text eol=lf
+.gitignore      text eol=lf
+.gitattributes  text eol=lf
+
+# Binary assets (never diffed or line-ending converted)
+*.pdf           binary

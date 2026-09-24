@@ -1,0 +1,38 @@
+name: Assignment question
+description: Ask a clarifying question about the take-home
+title: "[Question] "
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Ambiguity is expected in places. If a decision is genuinely yours to make, state
+        your assumption in your design note and proceed — you don't have to wait on us.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Which part is your question about?
+      options:
+        - Data / API (Section 1)
+        - Behaviour / evaluation (Section 2)
+        - Azure plan (Section 3)
+        - Incidents (Section 4)
+        - Fixtures (policies / ERP feed)
+        - Submission process
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: question
+    attributes:
+      label: Your question
+      description: Be specific. Quote the part of the assignment you're asking about.
+    validations:
+      required: true
+  - type: textarea
+    id: assumption
+    attributes:
+      label: Your working assumption (optional)
+      description: If we can't answer in time, what would you assume and proceed with?
+    validations:
+      required: false

@@ -1,0 +1,13 @@
+# gitleaks configuration for this repository.
+# Extends the default ruleset and allowlists the fake, non-secret test API keys
+# used in the take-home fixtures (see FIXTURES.md). These are throwaway local
+# development values, not credentials.
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Fake local test API keys used in the take-home fixtures"
+regexes = [
+  '''test-key-(northstar|cedar)-\d+''',
+]

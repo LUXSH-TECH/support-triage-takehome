@@ -1,0 +1,38 @@
+[
+  {
+    "policy_id": "N-RET",
+    "retailer": "northstar",
+    "category": "returns",
+    "text": "Unused items may be returned within 30 days of delivery. Final-sale items cannot be returned. Damaged items follow the damaged-item policy."
+  },
+  {
+    "policy_id": "N-DMG",
+    "retailer": "northstar",
+    "category": "damaged_item",
+    "text": "Damage reported within seven days of delivery requires a photo before a replacement can be approved. Later reports require human review."
+  },
+  {
+    "policy_id": "N-SHIP",
+    "retailer": "northstar",
+    "category": "shipping",
+    "text": "Shipments more than five days past the promised delivery date qualify for a carrier investigation. This does not automatically authorise a refund."
+  },
+  {
+    "policy_id": "C-RET",
+    "retailer": "cedar",
+    "category": "returns",
+    "text": "Unused items may be returned within 14 days of delivery. Final-sale items cannot be returned. Damaged items follow the damaged-item policy."
+  },
+  {
+    "policy_id": "C-DMG",
+    "retailer": "cedar",
+    "category": "damaged_item",
+    "text": "All damaged-item complaints require human review. Do not promise a refund or replacement."
+  },
+  {
+    "policy_id": "C-SHIP",
+    "retailer": "cedar",
+    "category": "shipping",
+    "text": "Shipments more than three days past the promised delivery date qualify for a carrier investigation. This does not automatically authorise a refund."
+  }
+]

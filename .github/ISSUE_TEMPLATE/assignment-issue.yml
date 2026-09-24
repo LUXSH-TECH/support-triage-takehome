@@ -1,0 +1,32 @@
+name: Problem with the assignment or fixtures
+description: Report an error, typo, or inconsistency in the spec, data files, or schema
+title: "[Issue] "
+labels: ["assignment"]
+body:
+  - type: dropdown
+    id: file
+    attributes:
+      label: Which file or section?
+      options:
+        - README.md (assignment)
+        - FIXTURES.md
+        - data/policies.json
+        - data/schema.sql
+        - erp/orders.psv
+        - docs/assignment.pdf
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What's wrong?
+      description: Describe the problem and where it is (line/row if you can).
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect instead?
+    validations:
+      required: false

@@ -1,0 +1,8 @@
+# Code owners for this repository.
+# Every pull request (including candidate submissions) automatically requests a
+# review from the owners listed here.
+#
+# Swap the handle below for a team if you prefer team-based routing,
+# e.g.  *   @LUXSH-TECH/hiring
+
+*       @hiranofficial
