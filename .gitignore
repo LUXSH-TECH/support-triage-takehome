@@ -32,3 +32,10 @@ htmlcov/
 .DS_Store
 .idea/
 .vscode/
+
+.venv/
+.env
+*.db
+__pycache__/
+*.pyc
+.pytest_cache/
