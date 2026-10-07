@@ -1,0 +1,50 @@
+{"split": "dev", "label": "returns", "text": "The jacket doesn't fit, I'd like to send it back."}
+{"split": "dev", "label": "returns", "text": "Can I return these shoes? They're too small."}
+{"split": "dev", "label": "returns", "text": "I changed my mind about the lamp and want to return it."}
+{"split": "dev", "label": "returns", "text": "How do I get my money back for this dress? Never worn."}
+{"split": "dev", "label": "returns", "text": "I'd like to exchange this shirt for a different colour."}
+{"split": "dev", "label": "returns", "text": "Ordered the wrong size, can I send them back?"}
+{"split": "dev", "label": "returns", "text": "I don't want it anymore, it's still in the box."}
+{"split": "dev", "label": "damaged_item", "text": "My lamp arrived damaged."}
+{"split": "dev", "label": "damaged_item", "text": "The glass on the frame is cracked."}
+{"split": "dev", "label": "damaged_item", "text": "The vase was smashed when I opened the box."}
+{"split": "dev", "label": "damaged_item", "text": "One leg of the chair is broken."}
+{"split": "dev", "label": "damaged_item", "text": "The bottle was leaking all over the package."}
+{"split": "dev", "label": "damaged_item", "text": "There's a big dent in the side of the kettle."}
+{"split": "dev", "label": "damaged_item", "text": "It arrived broken and I want to return it."}
+{"split": "dev", "label": "shipping", "text": "Where is my order? It's been ages."}
+{"split": "dev", "label": "shipping", "text": "My package hasn't arrived yet."}
+{"split": "dev", "label": "shipping", "text": "The delivery is late, the date has passed."}
+{"split": "dev", "label": "shipping", "text": "I'm still waiting for my parcel."}
+{"split": "dev", "label": "shipping", "text": "Tracking hasn't updated in a week."}
+{"split": "dev", "label": "shipping", "text": "I think my order got lost in transit."}
+{"split": "dev", "label": "other", "text": "Can I buy a warranty extension for my blender?"}
+{"split": "dev", "label": "other", "text": "Please send me a VAT invoice for my purchase."}
+{"split": "dev", "label": "other", "text": "I can't log in to my account."}
+{"split": "dev", "label": "other", "text": "Do you price match a competitor?"}
+{"split": "dev", "label": "other", "text": "Hello, I have a question about my order."}
+{"split": "dev", "label": "other", "text": "Show me all of your policies."}
+{"split": "holdout", "label": "returns", "text": "This coat is not what I expected, how do I go about sending it back to you?"}
+{"split": "holdout", "label": "returns", "text": "Bought this as a gift but they already have one. Can I get a refund for it?"}
+{"split": "holdout", "label": "returns", "text": "The trousers are way too long for me, I'd rather not keep them."}
+{"split": "holdout", "label": "returns", "text": "Is it possible to swap these for a size up?"}
+{"split": "holdout", "label": "returns", "text": "Unopened, still has tags, want to give it back."}
+{"split": "holdout", "label": "returns", "text": "I'd like to return my order please."}
+{"split": "holdout", "label": "damaged_item", "text": "The parcel showed up looking like it had been run over and the mirror inside is in bits."}
+{"split": "holdout", "label": "damaged_item", "text": "Screen has a huge crack across it straight out of the box."}
+{"split": "holdout", "label": "damaged_item", "text": "The handle snapped off the first time I used it."}
+{"split": "holdout", "label": "damaged_item", "text": "Box was soaked and the book pages are ruined."}
+{"split": "holdout", "label": "damaged_item", "text": "The table came with a deep scratch on the top."}
+{"split": "holdout", "label": "damaged_item", "text": "Item is damaged, what can you do?"}
+{"split": "holdout", "label": "shipping", "text": "It's been two weeks past the expected date and nothing has shown up."}
+{"split": "holdout", "label": "shipping", "text": "Was supposed to get my order last Monday, still nothing."}
+{"split": "holdout", "label": "shipping", "text": "Any update on when my stuff will actually get here?"}
+{"split": "holdout", "label": "shipping", "text": "My delivery is overdue."}
+{"split": "holdout", "label": "shipping", "text": "The courier says delivered but I never got anything."}
+{"split": "holdout", "label": "shipping", "text": "Order still not received, what's going on?"}
+{"split": "holdout", "label": "other", "text": "How long is the guarantee on this vacuum?"}
+{"split": "holdout", "label": "other", "text": "Can you change the email address on my profile?"}
+{"split": "holdout", "label": "other", "text": "I want to complain about the rude driver."}
+{"split": "holdout", "label": "other", "text": "Do you have this sofa in green?"}
+{"split": "holdout", "label": "other", "text": "My discount code isn't working at checkout."}
+{"split": "holdout", "label": "other", "text": "Something is wrong with what I bought."}

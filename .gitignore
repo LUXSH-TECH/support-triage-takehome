@@ -32,3 +32,6 @@ htmlcov/
 .DS_Store
 .idea/
 .vscode/
+
+# Solution: keep the example env file
+!.env.example

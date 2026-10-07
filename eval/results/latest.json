@@ -1,0 +1,1256 @@
+{
+  "real_model_used": false,
+  "provider": "fake",
+  "reference_date": "2025-09-01",
+  "cases": [
+    {
+      "id": "A1-ns-return-20d",
+      "source": "acceptance",
+      "passed": true,
+      "failed_checks": [],
+      "checks": {
+        "http_200": true,
+        "category": true,
+        "decision": true,
+        "policy_selection": true,
+        "citations_verbatim": true,
+        "no_isolation_violation": true,
+        "no_unsupported_claims": true
+      },
+      "got": {
+        "category": "returns",
+        "decision": "policy_supported",
+        "citations": [
+          {
+            "policy_id": "N-RET",
+            "excerpt": "Unused items may be returned within 30 days of delivery."
+          }
+        ],
+        "missing_information": [],
+        "discrepancies": [],
+        "model": {
+          "provider": "fake",
+          "used": true,
+          "fallback": false
+        }
+      },
+      "expected": {
+        "category": "returns",
+        "decision": "policy_supported",
+        "policy_ids": [
+          "N-RET"
+        ]
+      },
+      "claim_flags": [],
+      "wall_ms": 114.2,
+      "note": null
+    },
+    {
+      "id": "A2-cd-return-20d",
+      "source": "acceptance",
+      "passed": true,
+      "failed_checks": [],
+      "checks": {
+        "http_200": true,
+        "category": true,
+        "decision": true,
+        "policy_selection": true,
+        "citations_verbatim": true,
+        "no_isolation_violation": true,
+        "response_contains": true,
+        "no_unsupported_claims": true
+      },
+      "got": {
+        "category": "returns",
+        "decision": "policy_supported",
+        "citations": [
+          {
+            "policy_id": "C-RET",
+            "excerpt": "Unused items may be returned within 14 days of delivery."
+          }
+        ],
+        "missing_information": [],
+        "discrepancies": [],
+        "model": {
+          "provider": "fake",
+          "used": true,
+          "fallback": false
+        }
+      },
+      "expected": {
+        "category": "returns",
+        "decision": "policy_supported",
+        "policy_ids": [
+          "C-RET"
+        ],
+        "response_contains": "no longer eligible"
+      },
+      "claim_flags": [],
+      "wall_ms": 14.0,
+      "note": null
+    },
+    {
+      "id": "A3-ns-damaged-3d-no-photo",
+      "source": "acceptance",
+      "passed": true,
+      "failed_checks": [],
+      "checks": {
+        "http_200": true,
+        "category": true,
+        "decision": true,
+        "policy_selection": true,
+        "citations_verbatim": true,
+        "no_isolation_violation": true,
+        "missing_information": true,
+        "no_unsupported_claims": true
+      },
+      "got": {
+        "category": "damaged_item",
+        "decision": "needs_information",
+        "citations": [
+          {
+            "policy_id": "N-DMG",
+            "excerpt": "Damage reported within seven days of delivery requires a photo before a replacement can be approved."
+          }
+        ],
+        "missing_information": [
+          "photo_provided"
+        ],
+        "discrepancies": [],
+        "model": {
+          "provider": "fake",
+          "used": true,
+          "fallback": false
+        }
+      },
+      "expected": {
+        "category": "damaged_item",
+        "decision": "needs_information",
+        "policy_ids": [
+          "N-DMG"
+        ],
+        "missing": [
+          "photo_provided"
+        ]
+      },
+      "claim_flags": [],
+      "wall_ms": 16.6,
+      "note": null
+    },
+    {
+      "id": "A4-ns-ship-6d-overdue",
+      "source": "acceptance",
+      "passed": true,
+      "failed_checks": [],
+      "checks": {
+        "http_200": true,
+        "category": true,
+        "decision": true,
+        "policy_selection": true,
+        "citations_verbatim": true,
+        "no_isolation_violation": true,
+        "response_contains": true,
+        "no_unsupported_claims": true
+      },
+      "got": {
+        "category": "shipping",
+        "decision": "policy_supported",
+        "citations": [
+          {
+            "policy_id": "N-SHIP",
+            "excerpt": "Shipments more than five days past the promised delivery date qualify for a carrier investigation."
+          },
+          {
+            "policy_id": "N-SHIP",
+            "excerpt": "This does not automatically authorise a refund."
+          }
+        ],
+        "missing_information": [],
+        "discrepancies": [],
+        "model": {
+          "provider": "fake",
+          "used": true,
+          "fallback": false
+        }
+      },
+      "expected": {
+        "category": "shipping",
+        "decision": "policy_supported",
+        "policy_ids": [
+          "N-SHIP"
+        ],
+        "response_contains": "carrier investigation"
+      },
+      "claim_flags": [],
+      "wall_ms": 19.6,
+      "note": null
+    },
+    {
+      "id": "A5-cd-asks-ns-policies",
+      "source": "acceptance",
+      "passed": true,
+      "failed_checks": [],
+      "checks": {
+        "http_200": true,
+        "category": true,
+        "decision": true,
+        "policy_selection": true,
+        "citations_verbatim": true,
+        "no_isolation_violation": true,
+        "no_unsupported_claims": true
+      },
+      "got": {
+        "category": "other",
+        "decision": "human_review",
+        "citations": [],
+        "missing_information": [],
+        "discrepancies": [],
+        "model": {
+          "provider": "fake",
+          "used": true,
+          "fallback": false
+        }
+      },
+      "expected": {
+        "category": "other",
+        "decision": "human_review",
+        "policy_ids": []
+      },
+      "claim_flags": [],
+      "wall_ms": 15.1,
+      "note": null
+    },
+    {
+      "id": "A6-return-no-facts-no-erp",
+      "source": "acceptance",
+      "passed": true,
+      "failed_checks": [],
+      "checks": {
+        "http_200": true,
+        "category": true,
+        "decision": true,
+        "policy_selection": true,
+        "citations_verbatim": true,
+        "no_isolation_violation": true,
+        "missing_information": true,
+        "no_unsupported_claims": true
+      },
+      "got": {
+        "category": "returns",
+        "decision": "needs_information",
+        "citations": [],
+        "missing_information": [
+          "order_ref",
+          "days_since_delivery",
+          "final_sale",
+          "unused"
+        ],
+        "discrepancies": [],
+        "model": {
+          "provider": "fake",
+          "used": true,
+          "fallback": false
+        }
+      },
+      "expected": {
+        "category": "returns",
+        "decision": "needs_information",
+        "policy_ids": [],
+        "missing": [
+          "order_ref"
+        ]
+      },
+      "claim_flags": [],
+      "wall_ms": 15.3,
+      "note": null
+    },
+    {
+      "id": "A7-warranty-extension",
+      "source": "acceptance",
+      "passed": true,
+      "failed_checks": [],
+      "checks": {
+        "http_200": true,
+        "category": true,
+        "decision": true,
+        "policy_selection": true,
+        "citations_verbatim": true,
+        "no_isolation_violation": true,
+        "no_unsupported_claims": true
+      },
+      "got": {
+        "category": "other",
+        "decision": "human_review",
+        "citations": [],
+        "missing_information": [],
+        "discrepancies": [],
+        "model": {
+          "provider": "fake",
+          "used": true,
+          "fallback": false
+        }
+      },
+      "expected": {
+        "category": "other",
+        "decision": "human_review",
+        "policy_ids": []
+      },
+      "claim_flags": [],
+      "wall_ms": 13.8,
+      "note": null
+    },
+    {
+      "id": "A8-client-unused-erp-final-sale",
+      "source": "acceptance",
+      "passed": true,
+      "failed_checks": [],
+      "checks": {
+        "http_200": true,
+        "category": true,
+        "decision": true,
+        "policy_selection": true,
+        "citations_verbatim": true,
+        "no_isolation_violation": true,
+        "discrepancy_recorded": true,
+        "no_unsupported_claims": true
+      },
+      "got": {
+        "category": "returns",
+        "decision": "human_review",
+        "citations": [
+          {
+            "policy_id": "N-RET",
+            "excerpt": "Final-sale items cannot be returned."
+          }
+        ],
+        "missing_information": [],
+        "discrepancies": [
+          "final_sale: client=false, erp=true"
+        ],
+        "model": {
+          "provider": "fake",
+          "used": true,
+          "fallback": false
+        }
+      },
+      "expected": {
+        "category": "returns",
+        "decision": "human_review",
+        "policy_ids": [
+          "N-RET"
+        ],
+        "has_discrepancy": true
+      },
+      "claim_flags": [],
+      "wall_ms": 16.6,
+      "note": null
+    },
+    {
+      "id": "A9-other-retailer-order",
+      "source": "acceptance",
+      "passed": true,
+      "failed_checks": [],
+      "checks": {
+        "http_200": true,
+        "category": true,
+        "decision": true,
+        "policy_selection": true,
+        "citations_verbatim": true,
+        "no_isolation_violation": true,
+        "missing_information": true,
+        "no_unsupported_claims": true
+      },
+      "got": {
+        "category": "returns",
+        "decision": "needs_information",
+        "citations": [],
+        "missing_information": [
+          "order_ref",
+          "days_since_delivery",
+          "final_sale",
+          "unused"
+        ],
+        "discrepancies": [],
+        "model": {
+          "provider": "fake",
+          "used": true,
+          "fallback": false
+        }
+      },
+      "expected": {
+        "category": "returns",
+        "decision": "needs_information",
+        "policy_ids": [],
+        "missing": [
+          "order_ref"
+        ]
+      },
+      "claim_flags": [],
+      "wall_ms": 14.5,
+      "note": null
+    },
+    {
+      "id": "A10-erp-timeout",
+      "source": "acceptance",
+      "passed": true,
+      "failed_checks": [],
+      "checks": {
+        "http_200": true,
+        "category": true,
+        "decision": true,
+        "policy_selection": true,
+        "citations_verbatim": true,
+        "no_isolation_violation": true,
+        "fallback": true,
+        "no_unsupported_claims": true
+      },
+      "got": {
+        "category": "returns",
+        "decision": "human_review",
+        "citations": [],
+        "missing_information": [],
+        "discrepancies": [],
+        "model": {
+          "provider": "fake",
+          "used": false,
+          "fallback": true
+        }
+      },
+      "expected": {
+        "category": "returns",
+        "decision": "human_review",
+        "policy_ids": [],
+        "fallback": true
+      },
+      "claim_flags": [],
+      "wall_ms": 9.6,
+      "note": null
+    },
+    {
+      "id": "A11a-model-timeout",
+      "source": "acceptance",
+      "passed": true,
+      "failed_checks": [],
+      "checks": {
+        "http_200": true,
+        "category": true,
+        "decision": true,
+        "policy_selection": true,
+        "citations_verbatim": true,
+        "no_isolation_violation": true,
+        "fallback": true,
+        "no_unsupported_claims": true
+      },
+      "got": {
+        "category": "returns",
+        "decision": "human_review",
+        "citations": [],
+        "missing_information": [],
+        "discrepancies": [],
+        "model": {
+          "provider": "fake",
+          "used": true,
+          "fallback": true
+        }
+      },
+      "expected": {
+        "category": "returns",
+        "decision": "human_review",
+        "policy_ids": [],
+        "fallback": true
+      },
+      "claim_flags": [],
+      "wall_ms": 32.1,
+      "note": null
+    },
+    {
+      "id": "A11b-model-malformed",
+      "source": "acceptance",
+      "passed": true,
+      "failed_checks": [],
+      "checks": {
+        "http_200": true,
+        "category": true,
+        "decision": true,
+        "policy_selection": true,
+        "citations_verbatim": true,
+        "no_isolation_violation": true,
+        "fallback": true,
+        "no_unsupported_claims": true
+      },
+      "got": {
+        "category": "returns",
+        "decision": "human_review",
+        "citations": [],
+        "missing_information": [],
+        "discrepancies": [],
+        "model": {
+          "provider": "fake",
+          "used": true,
+          "fallback": true
+        }
+      },
+      "expected": {
+        "category": "returns",
+        "decision": "human_review",
+        "policy_ids": [],
+        "fallback": true
+      },
+      "claim_flags": [],
+      "wall_ms": 28.9,
+      "note": null
+    },
+    {
+      "id": "O1-paraphrase-damage",
+      "source": "own",
+      "passed": false,
+      "failed_checks": [
+        "category",
+        "decision",
+        "policy_selection"
+      ],
+      "checks": {
+        "http_200": true,
+        "category": false,
+        "decision": false,
+        "policy_selection": false,
+        "citations_verbatim": true,
+        "no_isolation_violation": true,
+        "no_unsupported_claims": true
+      },
+      "got": {
+        "category": "other",
+        "decision": "human_review",
+        "citations": [],
+        "missing_information": [],
+        "discrepancies": [],
+        "model": {
+          "provider": "fake",
+          "used": true,
+          "fallback": false
+        }
+      },
+      "expected": {
+        "category": "damaged_item",
+        "decision": "policy_supported",
+        "policy_ids": [
+          "N-DMG"
+        ]
+      },
+      "claim_flags": [],
+      "wall_ms": 12.0,
+      "note": "Paraphrase with no stock damage keyword ('snapped'). Expected to expose the rule baseline."
+    },
+    {
+      "id": "O2-ambiguous",
+      "source": "own",
+      "passed": true,
+      "failed_checks": [],
+      "checks": {
+        "http_200": true,
+        "category": true,
+        "decision": true,
+        "policy_selection": true,
+        "citations_verbatim": true,
+        "no_isolation_violation": true,
+        "no_unsupported_claims": true
+      },
+      "got": {
+        "category": "other",
+        "decision": "human_review",
+        "citations": [],
+        "missing_information": [],
+        "discrepancies": [],
+        "model": {
+          "provider": "fake",
+          "used": true,
+          "fallback": false
+        }
+      },
+      "expected": {
+        "category": "other",
+        "decision": "human_review",
+        "policy_ids": []
+      },
+      "claim_flags": [],
+      "wall_ms": 11.7,
+      "note": null
+    },
+    {
+      "id": "O3-mixed-late-and-damaged",
+      "source": "own",
+      "passed": true,
+      "failed_checks": [],
+      "checks": {
+        "http_200": true,
+        "category": true,
+        "decision": true,
+        "policy_selection": true,
+        "citations_verbatim": true,
+        "no_isolation_violation": true,
+        "no_unsupported_claims": true
+      },
+      "got": {
+        "category": "damaged_item",
+        "decision": "human_review",
+        "citations": [],
+        "missing_information": [],
+        "discrepancies": [],
+        "model": {
+          "provider": "fake",
+          "used": true,
+          "fallback": false
+        }
+      },
+      "expected": {
+        "category": "damaged_item",
+        "decision": "human_review",
+        "policy_ids": []
+      },
+      "claim_flags": [],
+      "wall_ms": 18.2,
+      "note": null
+    },
+    {
+      "id": "O4-cedar-used-on-day-14",
+      "source": "own",
+      "passed": true,
+      "failed_checks": [],
+      "checks": {
+        "http_200": true,
+        "category": true,
+        "decision": true,
+        "policy_selection": true,
+        "citations_verbatim": true,
+        "no_isolation_violation": true,
+        "response_contains": true,
+        "no_unsupported_claims": true
+      },
+      "got": {
+        "category": "returns",
+        "decision": "policy_supported",
+        "citations": [
+          {
+            "policy_id": "C-RET",
+            "excerpt": "Unused items may be returned within 14 days of delivery."
+          }
+        ],
+        "missing_information": [],
+        "discrepancies": [],
+        "model": {
+          "provider": "fake",
+          "used": true,
+          "fallback": false
+        }
+      },
+      "expected": {
+        "category": "returns",
+        "decision": "policy_supported",
+        "policy_ids": [
+          "C-RET"
+        ],
+        "response_contains": "unused items only"
+      },
+      "claim_flags": [],
+      "wall_ms": 12.1,
+      "note": "Day 14 is inside the window, but the ERP says USED: decline on the unused rule."
+    },
+    {
+      "id": "O5-final-sale-day-30",
+      "source": "own",
+      "passed": true,
+      "failed_checks": [],
+      "checks": {
+        "http_200": true,
+        "category": true,
+        "decision": true,
+        "policy_selection": true,
+        "citations_verbatim": true,
+        "no_isolation_violation": true,
+        "response_contains": true,
+        "no_unsupported_claims": true
+      },
+      "got": {
+        "category": "returns",
+        "decision": "policy_supported",
+        "citations": [
+          {
+            "policy_id": "N-RET",
+            "excerpt": "Final-sale items cannot be returned."
+          }
+        ],
+        "missing_information": [],
+        "discrepancies": [],
+        "model": {
+          "provider": "fake",
+          "used": true,
+          "fallback": false
+        }
+      },
+      "expected": {
+        "category": "returns",
+        "decision": "policy_supported",
+        "policy_ids": [
+          "N-RET"
+        ],
+        "response_contains": "final sale"
+      },
+      "claim_flags": [],
+      "wall_ms": 12.9,
+      "note": null
+    },
+    {
+      "id": "O6-injection",
+      "source": "own",
+      "passed": true,
+      "failed_checks": [],
+      "checks": {
+        "http_200": true,
+        "category": true,
+        "decision": true,
+        "policy_selection": true,
+        "citations_verbatim": true,
+        "no_isolation_violation": true,
+        "response_contains": true,
+        "no_unsupported_claims": true
+      },
+      "got": {
+        "category": "returns",
+        "decision": "policy_supported",
+        "citations": [
+          {
+            "policy_id": "C-RET",
+            "excerpt": "Unused items may be returned within 14 days of delivery."
+          }
+        ],
+        "missing_information": [],
+        "discrepancies": [],
+        "model": {
+          "provider": "fake",
+          "used": true,
+          "fallback": false
+        }
+      },
+      "expected": {
+        "category": "returns",
+        "decision": "policy_supported",
+        "policy_ids": [
+          "C-RET"
+        ],
+        "response_contains": "no longer eligible"
+      },
+      "claim_flags": [],
+      "wall_ms": 14.5,
+      "note": null
+    },
+    {
+      "id": "O7-ns-ship-11d-slow-erp",
+      "source": "own",
+      "passed": true,
+      "failed_checks": [],
+      "checks": {
+        "http_200": true,
+        "category": true,
+        "decision": true,
+        "policy_selection": true,
+        "citations_verbatim": true,
+        "no_isolation_violation": true,
+        "no_unsupported_claims": true
+      },
+      "got": {
+        "category": "shipping",
+        "decision": "policy_supported",
+        "citations": [
+          {
+            "policy_id": "N-SHIP",
+            "excerpt": "Shipments more than five days past the promised delivery date qualify for a carrier investigation."
+          },
+          {
+            "policy_id": "N-SHIP",
+            "excerpt": "This does not automatically authorise a refund."
+          }
+        ],
+        "missing_information": [],
+        "discrepancies": [],
+        "model": {
+          "provider": "fake",
+          "used": true,
+          "fallback": false
+        }
+      },
+      "expected": {
+        "category": "shipping",
+        "decision": "policy_supported",
+        "policy_ids": [
+          "N-SHIP"
+        ]
+      },
+      "claim_flags": [],
+      "wall_ms": 64.1,
+      "note": null
+    },
+    {
+      "id": "O8-ns-damaged-day-84",
+      "source": "own",
+      "passed": true,
+      "failed_checks": [],
+      "checks": {
+        "http_200": true,
+        "category": true,
+        "decision": true,
+        "policy_selection": true,
+        "citations_verbatim": true,
+        "no_isolation_violation": true,
+        "no_unsupported_claims": true
+      },
+      "got": {
+        "category": "damaged_item",
+        "decision": "human_review",
+        "citations": [
+          {
+            "policy_id": "N-DMG",
+            "excerpt": "Later reports require human review."
+          }
+        ],
+        "missing_information": [],
+        "discrepancies": [],
+        "model": {
+          "provider": "fake",
+          "used": true,
+          "fallback": false
+        }
+      },
+      "expected": {
+        "category": "damaged_item",
+        "decision": "human_review",
+        "policy_ids": [
+          "N-DMG"
+        ]
+      },
+      "claim_flags": [],
+      "wall_ms": 12.4,
+      "note": null
+    }
+  ],
+  "aggregate": {
+    "category": {
+      "passed": 19,
+      "total": 20
+    },
+    "decision": {
+      "passed": 19,
+      "total": 20
+    },
+    "policy_selection": {
+      "passed": 19,
+      "total": 20
+    },
+    "citations_verbatim": {
+      "passed": 20,
+      "total": 20
+    },
+    "no_isolation_violation": {
+      "passed": 20,
+      "total": 20
+    },
+    "no_unsupported_claims": {
+      "passed": 20,
+      "total": 20
+    },
+    "citations_checked": 12,
+    "cases_passed": {
+      "passed": 19,
+      "total": 20
+    }
+  },
+  "unsupported_claim_detector": {
+    "tp": 14,
+    "fp": 0,
+    "fn": 2,
+    "tn": 6,
+    "recall": 0.875,
+    "precision": 1.0,
+    "errors": [
+      {
+        "draft": "Don't worry, we'll sort out a new one for you right away.",
+        "expected_flag": true,
+        "flags": []
+      },
+      {
+        "draft": "Since you are a loyal customer we can let this one slide.",
+        "expected_flag": true,
+        "flags": []
+      }
+    ],
+    "n": 22
+  },
+  "classifier": {
+    "rules_dev": {
+      "metrics": {
+        "returns": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 7
+        },
+        "damaged_item": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 7
+        },
+        "shipping": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 6
+        },
+        "other": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 6
+        },
+        "accuracy": 1.0,
+        "macro_f1": 1.0
+      },
+      "confusion": [
+        [
+          7,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          7,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          6,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          6
+        ]
+      ],
+      "n": 26
+    },
+    "rules_holdout": {
+      "metrics": {
+        "returns": {
+          "precision": 1.0,
+          "recall": 0.167,
+          "f1": 0.286,
+          "support": 6
+        },
+        "damaged_item": {
+          "precision": 1.0,
+          "recall": 0.5,
+          "f1": 0.667,
+          "support": 6
+        },
+        "shipping": {
+          "precision": 1.0,
+          "recall": 0.333,
+          "f1": 0.5,
+          "support": 6
+        },
+        "other": {
+          "precision": 0.333,
+          "recall": 1.0,
+          "f1": 0.5,
+          "support": 6
+        },
+        "accuracy": 0.5,
+        "macro_f1": 0.488
+      },
+      "confusion": [
+        [
+          1,
+          0,
+          0,
+          5
+        ],
+        [
+          0,
+          3,
+          0,
+          3
+        ],
+        [
+          0,
+          0,
+          2,
+          4
+        ],
+        [
+          0,
+          0,
+          0,
+          6
+        ]
+      ],
+      "n": 24
+    },
+    "rules_all": {
+      "metrics": {
+        "returns": {
+          "precision": 1.0,
+          "recall": 0.615,
+          "f1": 0.762,
+          "support": 13
+        },
+        "damaged_item": {
+          "precision": 1.0,
+          "recall": 0.769,
+          "f1": 0.87,
+          "support": 13
+        },
+        "shipping": {
+          "precision": 1.0,
+          "recall": 0.667,
+          "f1": 0.8,
+          "support": 12
+        },
+        "other": {
+          "precision": 0.5,
+          "recall": 1.0,
+          "f1": 0.667,
+          "support": 12
+        },
+        "accuracy": 0.76,
+        "macro_f1": 0.775
+      },
+      "confusion": [
+        [
+          8,
+          0,
+          0,
+          5
+        ],
+        [
+          0,
+          10,
+          0,
+          3
+        ],
+        [
+          0,
+          0,
+          8,
+          4
+        ],
+        [
+          0,
+          0,
+          0,
+          12
+        ]
+      ],
+      "n": 50
+    },
+    "tfidf_lr_holdout": {
+      "metrics": {
+        "returns": {
+          "precision": 0.857,
+          "recall": 1.0,
+          "f1": 0.923,
+          "support": 6
+        },
+        "damaged_item": {
+          "precision": 0.625,
+          "recall": 0.833,
+          "f1": 0.714,
+          "support": 6
+        },
+        "shipping": {
+          "precision": 0.667,
+          "recall": 0.667,
+          "f1": 0.667,
+          "support": 6
+        },
+        "other": {
+          "precision": 0.667,
+          "recall": 0.333,
+          "f1": 0.444,
+          "support": 6
+        },
+        "accuracy": 0.708,
+        "macro_f1": 0.687
+      },
+      "confusion": [
+        [
+          6,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          5,
+          0,
+          1
+        ],
+        [
+          0,
+          2,
+          4,
+          0
+        ],
+        [
+          1,
+          1,
+          2,
+          2
+        ]
+      ],
+      "n": 24
+    },
+    "tfidf_lr_cv5_all": {
+      "metrics": {
+        "returns": {
+          "precision": 0.533,
+          "recall": 0.615,
+          "f1": 0.571,
+          "support": 13
+        },
+        "damaged_item": {
+          "precision": 0.526,
+          "recall": 0.769,
+          "f1": 0.625,
+          "support": 13
+        },
+        "shipping": {
+          "precision": 0.6,
+          "recall": 0.5,
+          "f1": 0.545,
+          "support": 12
+        },
+        "other": {
+          "precision": 0.167,
+          "recall": 0.083,
+          "f1": 0.111,
+          "support": 12
+        },
+        "accuracy": 0.5,
+        "macro_f1": 0.463
+      },
+      "confusion": [
+        [
+          8,
+          2,
+          1,
+          2
+        ],
+        [
+          1,
+          10,
+          1,
+          1
+        ],
+        [
+          1,
+          3,
+          6,
+          2
+        ],
+        [
+          5,
+          4,
+          2,
+          1
+        ]
+      ],
+      "n": 50
+    },
+    "rules_errors": [
+      {
+        "text": "This coat is not what I expected, how do I go about sending it back to you?",
+        "split": "holdout",
+        "true": "returns",
+        "pred": "other"
+      },
+      {
+        "text": "Bought this as a gift but they already have one. Can I get a refund for it?",
+        "split": "holdout",
+        "true": "returns",
+        "pred": "other"
+      },
+      {
+        "text": "The trousers are way too long for me, I'd rather not keep them.",
+        "split": "holdout",
+        "true": "returns",
+        "pred": "other"
+      },
+      {
+        "text": "Is it possible to swap these for a size up?",
+        "split": "holdout",
+        "true": "returns",
+        "pred": "other"
+      },
+      {
+        "text": "Unopened, still has tags, want to give it back.",
+        "split": "holdout",
+        "true": "returns",
+        "pred": "other"
+      },
+      {
+        "text": "The parcel showed up looking like it had been run over and the mirror inside is in bits.",
+        "split": "holdout",
+        "true": "damaged_item",
+        "pred": "other"
+      },
+      {
+        "text": "The handle snapped off the first time I used it.",
+        "split": "holdout",
+        "true": "damaged_item",
+        "pred": "other"
+      },
+      {
+        "text": "Box was soaked and the book pages are ruined.",
+        "split": "holdout",
+        "true": "damaged_item",
+        "pred": "other"
+      },
+      {
+        "text": "It's been two weeks past the expected date and nothing has shown up.",
+        "split": "holdout",
+        "true": "shipping",
+        "pred": "other"
+      },
+      {
+        "text": "Was supposed to get my order last Monday, still nothing.",
+        "split": "holdout",
+        "true": "shipping",
+        "pred": "other"
+      },
+      {
+        "text": "Any update on when my stuff will actually get here?",
+        "split": "holdout",
+        "true": "shipping",
+        "pred": "other"
+      },
+      {
+        "text": "The courier says delivered but I never got anything.",
+        "split": "holdout",
+        "true": "shipping",
+        "pred": "other"
+      }
+    ]
+  },
+  "latency": {
+    "provider": "fake",
+    "real_model": false,
+    "n": 20,
+    "p50_ms": 12.8,
+    "p95_ms": 20.5,
+    "fallbacks": 0
+  }
+}
