@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from app.erp import ErpError, ErpTimeout, FlatFileErpAdapter
+from app.services.erp_service import ErpError, ErpTimeout, FlatFileErpAdapter
 
 from .conftest import triage
 

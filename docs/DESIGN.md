@@ -5,7 +5,7 @@
 `X-API-Key` → retailer (server-side map, constant-time compare) → **classify** (rules) →
 **ERP lookup** (`ErpAdapter.get_order(order_ref, retailer)`, run in a thread under a wall-clock
 timeout) → **reconcile** client hints against the ERP → **retrieve** the policy row
-(`SELECT … FROM policy WHERE retailer = :r`, one query, then picked by category) → **decide** in code (`policy_engine.py`) →
+(`SELECT … FROM policy WHERE retailer = :r`, one query, then picked by category) → **decide** in code (`services/policy_service.py`) →
 **draft** (the model rephrases an approved draft) → **validate** the draft and the verbatim
 citations → **audit** one `triage_log` row → respond.
 
@@ -29,7 +29,7 @@ retailer predicate. A vector index alone would not enforce isolation.
 
 ## Policy enforcement
 
-Eligibility is decided only in `policy_engine.py`. It is pure, deterministic and fully unit-tested
+Eligibility is decided only in `services/policy_service.py`. It is pure, deterministic and fully unit-tested
 at every boundary (30/31, 14/15, 7/8, 5/6, 3/4, final sale at any day). Thresholds live in a
 `RULES` table. `test_rule_thresholds_match_policy_text` parses the numbers out of the policy
 wording ("within 30 days", "more than five days" → ≥ 6), so editing a policy text without

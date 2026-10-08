@@ -6,9 +6,9 @@ from pathlib import Path
 
 import pytest
 
-from app.classifier import classify
-from app.guardrails import validate_draft
-from app.policy_engine import RULES, sentences
+from app.services.classifier_service import classify
+from app.services.guardrail_service import validate_draft
+from app.services.policy_service import RULES, sentences
 
 POLICIES = {p["policy_id"]: p for p in json.loads((Path(__file__).parent.parent / "data" / "policies.json").read_text())}
 WORDS = {"three": 3, "five": 5, "seven": 7}

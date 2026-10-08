@@ -9,7 +9,7 @@ import httpx
 import pytest
 
 from app.config import Settings
-from app.llm import DraftRequest, FakeProvider, ModelError, OpenAICompatibleProvider, build_provider, parse_model_json
+from app.services.llm_service import DraftRequest, FakeProvider, ModelError, OpenAICompatibleProvider, build_provider, parse_model_json
 
 from .conftest import triage
 
@@ -134,17 +134,17 @@ def test_unexpected_provider_exception_is_bounded_and_audited(make_client):
     assert r.status_code == 200
     d = r.json()
     assert d["decision"] == "human_review" and d["model"]["fallback"] is True
-    row = c.app.state.service.audit.get(d["request_id"])
+    row = c.app.state.ctx.audit.get(d["request_id"])
     assert row["fallback_reason"] == "model_error"
 
 
 def test_unexpected_pipeline_exception_is_bounded_and_audited(make_client, monkeypatch):
     c = make_client()
-    import app.service as svc
+    import app.services.triage_service as svc
     monkeypatch.setattr(svc, "resolve_facts", lambda *a, **k: (_ for _ in ()).throw(ValueError("bug")))
     r = triage(c, "northstar", "Return please", "NS-88231")
     assert r.status_code == 200 and r.json()["decision"] == "human_review"
-    assert c.app.state.service.audit.get(r.json()["request_id"])["fallback_reason"] == "internal_error"
+    assert c.app.state.ctx.audit.get(r.json()["request_id"])["fallback_reason"] == "internal_error"
 
 
 def test_retry_after_longer_than_budget_is_not_waited():

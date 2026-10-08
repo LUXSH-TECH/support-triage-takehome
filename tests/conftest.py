@@ -7,8 +7,8 @@ import pytest
 from fastapi.testclient import TestClient
 
 from app.config import Settings
-from app.erp import ErpOrder, InMemoryErpAdapter
-from app.llm import FakeProvider
+from app.services.erp_service import ErpOrder, InMemoryErpAdapter
+from app.services.llm_service import FakeProvider
 from app.main import create_app
 
 TODAY = date(2025, 9, 1)

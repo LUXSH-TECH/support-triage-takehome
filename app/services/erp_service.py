@@ -13,7 +13,9 @@ Simulated failure convention (documented in README):
 
 from __future__ import annotations
 
+import asyncio
 import csv
+import logging
 import time
 from dataclasses import dataclass
 from datetime import date, datetime
@@ -128,3 +130,27 @@ class InMemoryErpAdapter:
 
     def ping(self) -> bool:
         return True
+
+
+# ---------------------------------------------------------------------------------------
+# Main entry point used by triage_service.
+# ---------------------------------------------------------------------------------------
+
+async def lookup_order(erp: ErpAdapter, order_ref: str | None, retailer: str, timeout_s: float):
+    """Look up an order for the authenticated retailer, with a hard timeout.
+
+    Returns (order, status) where status is one of:
+    skipped (no ref) | found | not_found | timeout | error.
+    """
+    if not order_ref:
+        return None, "skipped"
+    try:
+        order = await asyncio.wait_for(asyncio.to_thread(erp.get_order, order_ref, retailer), timeout=timeout_s)
+        return order, ("found" if order else "not_found")
+    except (ErpTimeout, asyncio.TimeoutError):
+        return None, "timeout"
+    except ErpError:
+        return None, "error"
+    except Exception:  # unexpected adapter bug: still a bounded outcome
+        logging.getLogger("triage").exception("erp adapter failure")
+        return None, "error"

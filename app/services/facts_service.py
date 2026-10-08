@@ -20,8 +20,8 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from datetime import date
 
-from .erp import ErpOrder
-from .schemas import ClientFacts
+from .erp_service import ErpOrder
+from ..schemas import ClientFacts
 
 DAY_TOLERANCE = 1
 

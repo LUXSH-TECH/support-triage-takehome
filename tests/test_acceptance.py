@@ -4,7 +4,7 @@ erp/orders.psv fixture and the fake model provider."""
 import json
 from pathlib import Path
 
-from app.llm import FakeProvider
+from app.services.llm_service import FakeProvider
 
 from .conftest import assert_verbatim, triage
 

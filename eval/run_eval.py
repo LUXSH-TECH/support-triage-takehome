@@ -29,14 +29,14 @@ from pathlib import Path
 
 from fastapi.testclient import TestClient
 
-from app.classifier import classify
+from app.services.classifier_service import classify
 from app.config import Settings
-from app.erp import FlatFileErpAdapter
-from app.facts import resolve_facts
-from app.guardrails import validate_draft
-from app.llm import FakeProvider, build_provider
+from app.services.erp_service import FlatFileErpAdapter
+from app.services.facts_service import resolve_facts
+from app.services.guardrail_service import validate_draft
+from app.services.llm_service import FakeProvider, build_provider
 from app.main import create_app
-from app.policy_engine import RULES
+from app.services.policy_service import RULES
 from app.schemas import ClientFacts
 
 ROOT = Path(__file__).resolve().parent.parent

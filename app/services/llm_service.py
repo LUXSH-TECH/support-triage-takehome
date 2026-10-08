@@ -18,12 +18,16 @@ from __future__ import annotations
 
 import asyncio
 import json
+import logging
+import re
 from dataclasses import dataclass
 from typing import Protocol
 
 import httpx
 
-from .config import Settings
+from ..config import Settings
+from .guardrail_service import validate_draft
+from .policy_service import RULES
 
 
 class ModelError(Exception):
@@ -192,3 +196,65 @@ def build_provider(settings: Settings) -> ModelProvider:
             raise RuntimeError("LLM_API_KEY is required for a real model provider")
         return OpenAICompatibleProvider(settings)
     raise RuntimeError(f"unknown LLM_PROVIDER: {settings.llm_provider}")
+
+
+# ---------------------------------------------------------------------------------------
+# Main entry point used by triage_service: ask the model for the reply, then check it.
+# ---------------------------------------------------------------------------------------
+
+async def draft_customer_reply(
+    *,
+    model: ModelProvider,
+    settings: Settings,
+    retailer: str,
+    outcome,  # policy_service.Outcome
+    facts,  # facts_service.ResolvedFacts
+    customer_message: str,
+    own_policies: list,  # this retailer's Policy rows
+    other_policies: list,  # other retailers' Policy rows (only to detect leaks)
+    seconds_left: float,
+) -> str:
+    """Returns a safe reply text, or raises ModelError (timeout/malformed/unsafe_output)."""
+
+    request = DraftRequest(
+        retailer=retailer,
+        decision=outcome.decision,
+        reason=outcome.reason,
+        approved_draft=outcome.draft,
+        policy_excerpts=[c["excerpt"] for c in outcome.citations],
+        facts={k: facts.values[k] for k in outcome.used_facts if k in facts.values},
+        customer_message=customer_message,
+    )
+
+    # Time budget: per-attempt timeout x attempts, but never past the request deadline.
+    retries = max(0, min(settings.llm_max_retries, 2))
+    budget = min(settings.llm_timeout_s * (1 + retries) + 0.6 * retries, seconds_left)
+    if budget <= 0:
+        raise ModelError("timeout")
+    try:
+        text = await asyncio.wait_for(model.draft(request), timeout=budget)
+    except asyncio.TimeoutError as exc:
+        raise ModelError("timeout") from exc
+
+    # Numbers the reply may mention: our facts, rule thresholds, and numbers in our policies.
+    own_texts = [p.text for p in own_policies]
+    rules = RULES[retailer]
+    allowed = {v for v in facts.values.values() if isinstance(v, int) and not isinstance(v, bool)}
+    allowed |= {rules.return_window_days, rules.ship_investigation_min_overdue}
+    if rules.damage_photo_window_days:
+        allowed.add(rules.damage_photo_window_days)
+    for t in own_texts + [outcome.draft]:
+        allowed |= {int(n) for n in re.findall(r"\b\d+\b", t)}
+
+    problems = validate_draft(
+        text,
+        retailer=retailer,
+        other_retailer_policy_ids=[p.policy_id for p in other_policies],
+        other_retailer_texts=[p.text for p in other_policies],
+        own_texts=own_texts,
+        allowed_numbers=allowed,
+    )
+    if problems:
+        logging.getLogger("triage").warning("model draft rejected: %s", problems)
+        raise ModelError("unsafe_output")
+    return text

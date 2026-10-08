@@ -162,6 +162,6 @@ Confusion matrix (rows = true, cols = predicted):
 
 ## 4. Latency
 
-provider=fake · real model: no · N=20 · p50=12.8 ms · p95=20.5 ms · fallbacks=0
+provider=fake · real model: no · N=20 · p50=4.6 ms · p95=10.7 ms · fallbacks=0
 
 _Fake provider: this is in-process plumbing latency (TestClient, SQLite, flat-file ERP), not model latency. No real-model latency is claimed._

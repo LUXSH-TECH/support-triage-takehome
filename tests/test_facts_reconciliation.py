@@ -2,8 +2,8 @@
 
 from datetime import date
 
-from app.erp import ErpOrder
-from app.facts import resolve_facts
+from app.services.erp_service import ErpOrder
+from app.services.facts_service import resolve_facts
 from app.schemas import ClientFacts
 
 from .conftest import memory_erp, order, triage

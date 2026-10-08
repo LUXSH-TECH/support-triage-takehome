@@ -15,8 +15,8 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass, field
 
-from .db import Policy
-from .facts import ResolvedFacts
+from ..database import Policy
+from .facts_service import ResolvedFacts
 
 
 @dataclass(frozen=True)
@@ -248,3 +248,80 @@ def _shipping(policy: Policy, rules: RetailerRules, f: ResolvedFacts) -> Outcome
         f"and we open a carrier investigation once a shipment is {threshold} or more days late.",
         [excerpt(policy, 0)], [], ["days_overdue"],
     )
+
+
+# ---------------------------------------------------------------------------------------
+# Main entry point used by triage_service: picks the outcome for one ticket.
+# ---------------------------------------------------------------------------------------
+
+REQUIRED_FACTS = {
+    "returns": ["days_since_delivery", "final_sale", "unused"],
+    "damaged_item": ["days_since_delivery", "photo_provided"],
+    "shipping": ["days_overdue"],
+}
+
+
+def fallback_outcome(reason: str) -> Outcome:
+    """The single 'safe' answer used whenever something fails (ERP, model, bug)."""
+    return Outcome(
+        decision="human_review",
+        reason=reason,
+        next_action=f"Bounded fallback ({reason}): route to an agent. No automated advice was given.",
+        draft=HUMAN_REVIEW_MESSAGE,
+    )
+
+
+def choose_outcome(
+    *,
+    category: str,
+    unsupported: bool,
+    mixed: bool,
+    order_found: bool,
+    order_ref_given: bool,
+    retailer: str,
+    policies: dict[str, Policy],
+    facts: ResolvedFacts,
+) -> tuple[str, Outcome]:
+    """Return (final_category, outcome). Rules are checked top to bottom; first match wins."""
+
+    # 1. Out of scope (warranty, invoices...) or we could not tell what the ticket is about.
+    if unsupported or category == "other":
+        return category, human(
+            "unsupported_or_ambiguous",
+            "Route to an agent: request is outside supported policies or is ambiguous.",
+        )
+
+    # 2. Ticket mixes several problems (e.g. late AND damaged).
+    if mixed:
+        return category, human("mixed_issue", "Route to an agent: ticket mixes more than one issue type.")
+
+    # 3. No order (missing ref, unknown ref, or another retailer's ref): ask for the order number.
+    if not order_found:
+        outcome = needs_info("order_not_found", ["order_ref"] + REQUIRED_FACTS[category], [], [])
+        outcome.draft = (
+            "Thanks for getting in touch. We could not find an order matching the details "
+            "provided; could you please double-check and send us your order number?"
+            if order_ref_given
+            else "Thanks for getting in touch. Could you please send us your order number so we can look into this?"
+        )
+        return category, outcome
+
+    # 4. Apply the retailer's policy. A return of an item the ERP marks DAMAGED follows the
+    #    damaged-item policy ("Damaged items follow the damaged-item policy.").
+    if category == "returns" and facts.damaged_in_erp:
+        category = "damaged_item"
+        outcome = decide(category, retailer, policies.get(category), facts)
+        if "returns" in policies:
+            outcome.citations.insert(0, excerpt(policies["returns"], 2))
+    else:
+        outcome = decide(category, retailer, policies.get(category), facts)
+
+    # 5. Customer's facts contradict the ERP: do not trust either side, send to an agent.
+    if facts.discrepancies:
+        outcome = human(
+            "client_erp_discrepancy",
+            "Route to an agent: client-supplied facts contradict the ERP; no outcome promised.",
+            outcome.citations,
+            list(facts.sources),
+        )
+    return category, outcome

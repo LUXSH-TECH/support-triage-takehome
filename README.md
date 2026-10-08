@@ -94,19 +94,43 @@ for day-count boundaries (`tests/conftest.py::order`).
 
 ```
 app/
-  main.py            FastAPI app, X-API-Key auth, /health, /triage
-  service.py         orchestration + routing precedence + audit write
-  classifier.py      rule-based baseline classifier
-  erp.py             ErpAdapter protocol, flat-file adapter, in-memory test double
-  facts.py           fact derivation + client-vs-ERP reconciliation
-  policy_engine.py   deterministic decisions, thresholds, verbatim citations
-  llm.py             fake + OpenAI/Azure OpenAI providers, strict JSON parsing
-  guardrails.py      output validation (promises, cross-retailer, ungrounded numbers)
-  db.py              SQLAlchemy Core schema, seed, policy + audit repositories
-  schemas.py         Pydantic request/response contracts
-eval/                cases.json, classifier_dataset.jsonl, run_eval.py, results/
-tests/               pytest suite
+  main.py                    starts the app: DB + policy seed, shared context, includes routes
+  config.py                  settings from environment variables
+  context.py                 AppContext: the shared objects (settings, DB repos, ERP, model)
+  database.py                tables (policy, triage_log), seed loader, repositories
+  schemas.py                 request / response models (validation)
+  routes/
+    health_routes.py         GET  /health
+    triage_routes.py         POST /triage  -> checks API key -> services.triage_service.run_triage()
+  services/
+    triage_service.py        the flow, step 1..8 (start reading here)
+    auth_service.py          API key -> retailer
+    classifier_service.py    message -> returns | damaged_item | shipping | other
+    erp_service.py           legacy ERP adapter + lookup_order() with timeout
+    facts_service.py         ERP facts + customer facts -> reconciled facts, discrepancies
+    policy_service.py        choose_outcome(): the decision rules, thresholds, citations
+    llm_service.py           fake / real model + draft_customer_reply()
+    guardrail_service.py     checks the model's reply (no promises, no other retailer, ...)
+    audit_service.py         save_audit_log(): one triage_log row per request
+eval/                        cases.json, classifier_dataset.jsonl, run_eval.py, results/
+tests/                       pytest suite
 docs/  infra/  scripts/
+```
+
+### How one request flows
+
+```
+POST /triage
+  └─ routes/triage_routes.py      current_retailer()  -> auth_service.get_retailer_for_key()  (401 if bad)
+       └─ services/triage_service.py   run_triage()
+            1. classifier_service.classify(message)
+            2. erp_service.lookup_order(order_ref, retailer)        timeout/error -> fallback
+            3. facts_service.resolve_facts(order, client_facts)     ERP wins, conflicts recorded
+            4. database: policies.for_retailer(retailer)            only this retailer's policies
+            5. policy_service.choose_outcome(...)                    decision + citations (in code)
+            6. llm_service.draft_customer_reply(...)                 model rewrites, guardrail checks
+            7. verify citations are exact quotes of stored policy text
+            8. audit_service.save_audit_log(...)                     always, even on fallback
 ```
 
 ## Evaluation summary (fake provider)
