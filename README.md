@@ -151,10 +151,12 @@ From [`eval/results/latest.md`](eval/results/latest.md):
 
 ## Submission notes
 
-- **Time spent:** _fill in_
-- **AI-assistant usage:** _fill in honestly_. For example: "Code, tests and docs were drafted
-  with an AI assistant (Claude). I reviewed every module, ran the test suite and evaluation,
-  checked the policy boundaries by hand against the table, and changed X/Y."
+- **Time spent:** approximately 7 hours.
+- **AI-assistant usage:** I used Claude to draft the service code, tests, evaluation script, Azure plan,
+  incident runbooks and design note. I checked its output by running all 149 tests and
+  `python -m eval.run_eval` myself, sending real requests to the running service with curl, and
+  confirming that `data/` and `erp/` are identical to the provided fixtures. All results use the
+  fake model only.
 - **Incomplete / not done:** no real-model evaluation (no access). No LLM-assisted
   classification, which is proposed but not built. The Azure assets are illustrative and were
   never deployed. ERP adapter retries and a circuit breaker are not implemented (one attempt,

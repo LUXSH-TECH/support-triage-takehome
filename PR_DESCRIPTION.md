@@ -1,15 +1,13 @@
-<!-- Paste into the pull request body (template from .github/PULL_REQUEST_TEMPLATE.md). Fill the blanks. -->
-
 ## Submission
 
-- **Name:** Rohit <surname>
-- **Time spent (approx):** <fill in>
+- **Name:** Rohit Chaudhari
+- **Time spent (approx):** approximately 7 hours
 - **Real model used?** no. All tests and evaluation use the deterministic fake provider. An OpenAI / Azure OpenAI provider is implemented and tested only against a mocked HTTP transport.
-- **Where's the code?** this branch (`submission/rohit`)
+- **Where's the code?** this branch (`submission/rohit`) · external repo/ZIP link: submitted as a ZIP (`support-triage-takehome.zip`) because I do not have push access to this repository
 
 ## AI-assistant usage
 
-<Describe honestly. For example: an AI assistant (Claude) generated the initial code, tests and docs. I reviewed each module, re-ran `pytest` and `python -m eval.run_eval`, checked every day-count boundary by hand against the README table, and changed …>
+I used Claude (an AI assistant) to draft the service code, tests, evaluation script, Azure plan, incident runbooks and design note. I checked its output by running all 149 tests and `python -m eval.run_eval` myself, sending real requests to the running service with curl (including the Northstar return case, the `-TIMEOUT` ERP case and a cross-retailer `order_ref`), and confirming that my `data/` and `erp/` fixtures are identical to the provided ones. All results use the fake model only; I did not test a real model or deploy anything on Azure.
 
 ## How to run it
 
@@ -18,7 +16,7 @@
 python -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt
 
 # run the service
-uvicorn app.main:app --port 8000
+uvicorn app.main:app --port 8000   # fake provider by default, no API key or .env change needed
 
 # run the tests
 pytest -q
