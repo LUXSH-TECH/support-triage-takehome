@@ -10,19 +10,20 @@ submitting a solution built from it.
 
 ## How to submit (pull request)
 
-We review submissions as a pull request against this repository.
+You do **not** need any access granted — submit from your own fork. You cannot push a
+branch directly to this repository, and you don't need to.
 
-1. You will be granted push access to a working branch, or added as a collaborator. If you
-   have not been, tell your Luxsh contact and we will sort it out.
-2. Create a branch named `submission/<your-name>` (e.g. `submission/asha-r`).
-3. Build your solution on that branch. Keep the provided `data/` and `erp/` fixtures where
-   they are, and note in your own README any fixture you changed.
-4. Open a **pull request into `main`** and fill in the pull-request template completely.
-5. Do **not** review or merge your own PR — opening it is the submission.
+1. **Fork** this repository (the **Fork** button, top-right).
+2. In your fork, create a branch, e.g. `submission/<your-name>` (e.g. `submission/asha-r`).
+3. Build your solution and push it to **your fork**. Keep the provided `data/` and `erp/`
+   fixtures where they are, and note in your own README any fixture you changed.
+4. Open a **pull request** from your fork into
+   `LUXSH-TECH/support-triage-takehome:main`, and fill in the pull-request template.
+5. Do **not** merge it yourself — opening the PR is the submission.
 
-**Can't push here?** If access can't be arranged in time, you may instead submit a link to
-your own Git repository (or a ZIP) in a pull request description or by email to your Luxsh
-contact. A PR is preferred because it makes the review and the live walkthrough easier.
+**Can't fork or open a PR?** No problem — share a link to your own Git repository (or a
+ZIP) with your Luxsh contact instead. That's a perfectly fine fallback; a PR is just a
+little easier for the review and live walkthrough.
 
 ## What to include
 
