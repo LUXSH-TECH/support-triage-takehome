@@ -1,0 +1,32 @@
+{"text":"I need to return these shoes.","label":"returns"}
+{"text":"Can I send this coat back?","label":"returns"}
+{"text":"The jacket doesn't fit me.","label":"returns"}
+{"text":"These trousers are too small.","label":"returns"}
+{"text":"Could I exchange this for another size?","label":"returns"}
+{"text":"I'd like to return an unused item.","label":"returns"}
+{"text":"The shoes are the wrong size.","label":"returns"}
+{"text":"I want to send it back for a refund.","label":"returns"}
+{"text":"The phone arrived broken.","label":"damaged_item"}
+{"text":"My product is damaged.","label":"damaged_item"}
+{"text":"This appliance is defective.","label":"damaged_item"}
+{"text":"The glass is cracked in the parcel.","label":"damaged_item"}
+{"text":"The item stopped working on arrival.","label":"damaged_item"}
+{"text":"The item arrived damaged.","label":"damaged_item"}
+{"text":"This chair is broken.","label":"damaged_item"}
+{"text":"There is damage to the item.","label":"damaged_item"}
+{"text":"My package is late.","label":"shipping"}
+{"text":"The delivery is delayed.","label":"shipping"}
+{"text":"Tracking hasn't updated in days.","label":"shipping"}
+{"text":"The shipment is overdue.","label":"shipping"}
+{"text":"Where is my parcel?","label":"shipping"}
+{"text":"The package has not arrived.","label":"shipping"}
+{"text":"The carrier says delivery is late.","label":"shipping"}
+{"text":"My shipment has been delayed.","label":"shipping"}
+{"text":"Can you extend my warranty?","label":"other"}
+{"text":"How can I update my account email?","label":"other"}
+{"text":"I need help changing my password.","label":"other"}
+{"text":"I have a billing question.","label":"other"}
+{"text":"Can I speak with customer support?","label":"other"}
+{"text":"Please tell me about warranty coverage.","label":"other"}
+{"text":"Where can I find my receipt?","label":"other"}
+{"text":"I have a question about my order.","label":"other"}

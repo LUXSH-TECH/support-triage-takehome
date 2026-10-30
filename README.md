@@ -351,3 +351,115 @@ walk through one incident scenario chosen by the reviewer.
 You will not be asked to provision Azure resources. We assess practical application
 ownership and Azure design/diagnostic reasoning; the planning exercise does not establish
 hands-on deployment experience.
+
+---
+
+## Local implementation
+
+### Setup
+
+Requires Python 3.11 or newer. From the repository root:
+
+```powershell
+py -3.11 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+```
+
+On macOS/Linux, activate with `source .venv/bin/activate`. The fixture API keys work by
+default for local development. Optional settings are listed in `.env.example`; the app
+reads process environment variables and does not load `.env` files automatically.
+
+### Database setup
+
+On startup, SQLAlchemy creates the SQLite `policy` and `triage_log` tables if absent and
+upserts the six exact policy seed records from `data/policies.json`. The default database
+is `triage.db` in the repository root. Override it with `DATABASE_URL`. Audit rows do not
+store customer messages.
+
+### Run
+
+```powershell
+uvicorn app.main:app --reload
+```
+
+The API is available at `http://127.0.0.1:8000`; interactive API docs are at
+`http://127.0.0.1:8000/docs`.
+
+### Tests and evaluation
+
+```powershell
+pytest -q
+python -m evaluation.evaluate
+```
+
+The evaluation command reports rule-classifier precision/recall/F1 and a confusion
+matrix, then runs 14 deterministic HTTP cases covering decisions, policies, citations,
+retailer isolation, output validation, and fallbacks. It exits nonzero if a check fails.
+
+Verified in this workspace: `pytest -q` passed 38 tests. `python -m evaluation.evaluate`
+passed all 14 acceptance cases with exact citations and zero retailer-isolation failures.
+The 32-example classifier report was: returns P/R/F1 1.000/1.000/1.000; damaged item
+1.000/0.875/0.933; shipping 1.000/1.000/1.000; other 0.889/1.000/0.941. The damaged-item
+recall miss is an item phrased as “stopped working”; this baseline is intentionally simple
+and the small labeled set is not evidence of generalization. No real model calls or latency
+measurements were performed.
+
+### Fake model
+
+The default `fake` provider is deterministic, offline, and needs no credentials. It renders
+the application-approved next action; it does not make policy decisions. Failure modes for
+tests can be selected with `FAKE_MODEL_MODE=timeout`, `malformed`, `invalid_citation`, or
+`unsupported_claim`. No real model provider is implemented or evaluated.
+
+### Example request
+
+```powershell
+curl.exe -X POST http://127.0.0.1:8000/triage `
+  -H "Content-Type: application/json" `
+  -H "X-API-Key: test-key-northstar-001" `
+  -d '{"ticket_id":"T-1001","order_ref":"NS-88231","message":"The jacket does not fit; I want to send it back."}'
+```
+
+Cedar uses `X-API-Key: test-key-cedar-002`. These are the repository's throwaway fixture
+keys, not production credentials.
+
+### Example response
+
+```json
+{
+  "ticket_id": "T-1001",
+  "request_id": "generated-uuid",
+  "retailer": "northstar",
+  "category": "returns",
+  "decision": "policy_supported",
+  "next_action": "The order details meet the return policy. Please contact support to arrange the return.",
+  "customer_response": "The order details meet the return policy. Please contact support to arrange the return.",
+  "citations": [
+    {"policy_id": "N-RET", "excerpt": "Unused items may be returned within 30 days of delivery."}
+  ],
+  "missing_information": [],
+  "fact_sources": {"days_since_delivery": "erp", "days_overdue": "erp", "final_sale": "erp", "unused": "erp"},
+  "discrepancies": [],
+  "model": {"provider": "fake", "used": true, "fallback": false},
+  "latency_ms": 2
+}
+```
+
+The order fixture resolves to 20 days since delivery relative to the fixed date
+2025-09-01. UUID and latency vary per request.
+
+### Limitations and handover
+
+The classifier is a transparent keyword baseline, not a trained model. Only the fake model
+provider is implemented; no real-model quality or latency results are claimed. Local schema
+creation uses SQLAlchemy metadata rather than a versioned migration framework. Azure was
+not deployed, and load behavior, live ERP integration, managed identities, and external
+provider limits remain untested. See [docs/DESIGN.md](docs/DESIGN.md),
+[docs/AZURE.md](docs/AZURE.md), and [docs/incidents.md](docs/incidents.md).
+
+GitHub Copilot was used to implement and review the code and documentation. Generated
+behavior was checked against the supplied fixtures, focused API tests, the full pytest
+suite, and the single evaluation command; the implementation remains intentionally small
+enough to inspect. Estimated engineering effort for this implementation is about three
+hours; this is an estimate, not a human time log.
