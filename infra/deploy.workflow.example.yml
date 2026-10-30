@@ -1,0 +1,58 @@
+# ILLUSTRATIVE — NOT RUN. Lives outside .github/workflows on purpose so it does not execute here.
+# Placeholders in <angle brackets>. Azure login uses GitHub OIDC (federated credential), no stored secret.
+name: deploy
+on:
+  push: { branches: [main] }
+permissions: { id-token: write, contents: read }
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.13" }
+      - run: pip install -r requirements.txt
+      - run: pytest -q
+      - run: python -m eval.run_eval        # fake provider; review eval/results/latest.md artifact
+      - uses: actions/upload-artifact@v4
+        with: { name: eval-results, path: eval/results/ }
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    environment: build
+    steps:
+      - uses: actions/checkout@v4
+      - uses: azure/login@v2
+        with: { client-id: "<gh-triage-deploy-client-id>", tenant-id: "<tenant-id>", subscription-id: "<sub-id>" }
+      - run: az acr build -r <acrname> -t triage:${{ github.sha }} .
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: production                 # required reviewer = release gate
+    env: { RG: rg-triage-prod, APP: triage-api, IMAGE: "<acrname>.azurecr.io/triage:${{ github.sha }}" }
+    steps:
+      - uses: azure/login@v2
+        with: { client-id: "<gh-triage-deploy-client-id>", tenant-id: "<tenant-id>", subscription-id: "<sub-id>" }
+      - name: Schema + policy seed migration (expand-only, backward compatible)
+        run: |
+          az containerapp job update -g $RG -n triage-migrate --image $IMAGE
+          az containerapp job start  -g $RG -n triage-migrate --wait     # <verify flag on current CLI>
+      - name: New revision at 0% traffic
+        run: |
+          PREV=$(az containerapp revision list -g $RG -n $APP --query "[?properties.trafficWeight>\`0\`].name | [0]" -o tsv)
+          echo "PREV=$PREV" >> $GITHUB_ENV
+          az containerapp update -g $RG -n $APP --image $IMAGE --revision-suffix ${GITHUB_SHA::7}
+          az containerapp ingress traffic set -g $RG -n $APP --revision-weight $PREV=100 $APP--${GITHUB_SHA::7}=0
+      - name: Health + smoke tests against the revision URL
+        run: ./scripts/smoke.sh "https://$APP--${GITHUB_SHA::7}.<env-domain>"   # PLACEHOLDER script
+      - name: Canary 10% then 100%
+        run: |
+          az containerapp ingress traffic set -g $RG -n $APP --revision-weight $PREV=90 $APP--${GITHUB_SHA::7}=10
+          sleep 900   # watch: 5xx, p95, fallback rate, erp_timeout rate (alerts fail the job — PLACEHOLDER)
+          az containerapp ingress traffic set -g $RG -n $APP --revision-weight $APP--${GITHUB_SHA::7}=100
+      - name: Roll back on failure
+        if: failure()
+        run: az containerapp ingress traffic set -g $RG -n $APP --revision-weight $PREV=100
